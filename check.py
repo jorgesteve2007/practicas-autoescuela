@@ -54,8 +54,15 @@ if valor is None:
     login()
     valor = leer()
 if valor is None:
+    r = s.get(URL, timeout=30)
+    soup = BeautifulSoup(r.text, "html.parser")
+    t = soup.title
+    print("Estado:", r.status_code, "| URL final:", r.url,
+          "| Título:", t.get_text(strip=True) if t else None)
+    print("Tiene leyenda:", "llegenda-calendari" in r.text,
+          "| Tiene formulario login:", "form-login" in r.text,
+          "| Nº de div.day:", len(soup.select("div.day")))
     raise SystemExit("No se encontró el calendario (¿login fallido?)")
-
 try:
     ultimo = json.loads(last_f.read_text()) if last_f.exists() else None
 except ValueError:
