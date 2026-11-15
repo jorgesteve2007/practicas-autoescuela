@@ -40,15 +40,22 @@ def leer():
     return libres
 
 def login():
+    h = {"Referer": LOGIN_URL, "Origin": "https://app.practicavial.com",
+         "Accept": "text/html,application/xhtml+xml",
+         "Accept-Language": "es-ES,es;q=0.9"}
     r = s.get(LOGIN_URL, timeout=30)
-    tok = BeautifulSoup(r.text, "html.parser").select_one("input[name=_token]")
-    s.post(LOGIN_URL, timeout=30, data={
+    soup = BeautifulSoup(r.text, "html.parser")
+    tok = soup.select_one("input[name=_token]")
+    r2 = s.post(LOGIN_URL, timeout=30, headers=h, data={
         "_token": tok["value"] if tok else "",
-        "login": os.environ["WEB_USER"],
-        "password": os.environ["WEB_PASS"],
+        "login": os.environ["WEB_USER"].strip(),
+        "password": os.environ["WEB_PASS"].strip(),
     })
-    print("login hecho")
-
+    s2 = BeautifulSoup(r2.text, "html.parser")
+    msgs = [m.get_text(" ", strip=True) for m in
+            s2.select(".alert, .invalid-feedback, .error, .text-danger")]
+    print("Login ->", r2.status_code, r2.url, "| token:", bool(tok),
+          "| mensajes:", msgs[:3])
 valor = leer()
 if valor is None:
     login()
