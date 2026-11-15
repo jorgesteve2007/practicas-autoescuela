@@ -40,6 +40,12 @@ def leer():
     return libres
 
 def login():
+
+
+
+    print("Secrets rellenos:", bool(os.environ.get("WEB_USER", "").strip()),
+          bool(os.environ.get("WEB_PASS", "").strip()))
+    
     h = {"Referer": LOGIN_URL, "Origin": "https://app.practicavial.com",
          "Accept": "text/html,application/xhtml+xml",
          "Accept-Language": "es-ES,es;q=0.9"}
