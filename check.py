@@ -23,22 +23,18 @@ def leer():
     if not soup.select_one("#llegenda-calendari"):
         return None
     libres = {}
-    for i, dia in enumerate(soup.select("div.day")):
+    for dia in soup.select("div.day[data-dia]"):
         clases = set(dia.get("class", []))
-        if "blank" in clases or "has-practica" in clases:
+        if "available" not in clases or "has-practica" in clases or "past" in clases:
             continue
-        fecha = dia.get("data-date")
-        if fecha:
-            try:
-                sabado = datetime.date.fromisoformat(fecha[:10]).weekday() == 5
-            except ValueError:
-                sabado = i % 7 == 5
-        else:
-            fecha = dia.get_text(strip=True)
-            sabado = i % 7 == 5
+        fecha = dia["data-dia"][:10]
+        try:
+            sabado = datetime.date.fromisoformat(fecha).weekday() == 5
+        except ValueError:
+            sabado = False
         libres[fecha] = sabado
     return libres
-
+    
 def login():
 
 
