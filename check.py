@@ -48,7 +48,7 @@ def login():
     tok = soup.select_one("input[name=_token]")
     r2 = s.post(LOGIN_URL, timeout=30, headers=h, data={
         "_token": tok["value"] if tok else "",
-        "login": os.environ["WEB_USER"].strip(),
+        "username": os.environ["WEB_USER"].strip(),
         "password": os.environ["WEB_PASS"].strip(),
     })
     s2 = BeautifulSoup(r2.text, "html.parser")
