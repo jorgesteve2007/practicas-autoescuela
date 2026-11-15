@@ -76,7 +76,7 @@ if valor is None:
           "| Tiene formulario login:", "form-login" in r.text,
           "| Nº de div.day:", len(soup.select("div.day")))
     raise SystemExit("No se encontró el calendario (¿login fallido?)")
-    print("Días libres detectados:", valor)
+print("Días libres detectados:", valor)
 try:
     ultimo = json.loads(last_f.read_text()) if last_f.exists() else None
 except ValueError:
