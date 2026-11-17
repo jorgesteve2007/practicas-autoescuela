@@ -7,7 +7,7 @@ time.sleep(random.uniform(0, 60))
 LOGIN_URL = "https://app.practicavial.com/login"
 URL = "https://app.practicavial.com/mi-calendario"
 HORA = re.compile(r"\b\d{1,2}:\d{2}\s*[-–]\s*\d{1,2}:\d{2}\b")
-DEBUG = True   # pon False cuando todo funcione
+DEBUG = False   # pon False cuando todo funcione
 
 TOPIC = os.environ["NTFY_TOPIC"]
 d = Path("state"); d.mkdir(exist_ok=True)
